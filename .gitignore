@@ -1,0 +1,16 @@
+# Dependencias (¡CRÍTICO!)
+/front/node_modules/
+/back/target/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Archivos de IDE y OS
+.vscode
+.idea
+*.iml
+.DS_Store
+Thumbs.db

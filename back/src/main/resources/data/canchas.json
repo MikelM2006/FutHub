@@ -1,0 +1,99 @@
+[ {
+  "id" : "ecb1445d-d5ce-48f1-865c-fcb79d823946",
+  "nombre" : "Emirates Stadium",
+  "ubicacion" : "London",
+  "precio" : 400.0,
+  "disponible" : true,
+  "imagenUrl" : "https://www.arsenal.com/sites/default/files/styles/link_image_extra_large/public/images/GettyImages-884411976.jpg?auto=webp&itok=w7-4LWKS"
+}, {
+  "id" : "66242313-2269-48bb-bda6-826b700da4a5",
+  "nombre" : "Sobha Realty Training Centre",
+  "ubicacion" : "Dubai",
+  "precio" : 180.0,
+  "disponible" : true,
+  "imagenUrl" : "https://www.arsenal.com/sites/default/files/styles/desktop_16x9/public/images/KV.png?h=f0fb51a5&auto=webp&itok=pz7wwL7j"
+}, {
+  "id" : "5dc35848-024c-4fa5-9f93-02129c130cc8",
+  "nombre" : "Santiago Bernabéu",
+  "ubicacion" : "Madrid",
+  "precio" : 450.0,
+  "disponible" : true,
+  "imagenUrl" : "https://media.timeout.com/images/106259030/image.jpg"
+}, {
+  "id" : "30592f5e-a7ca-4b6e-9da6-d6d16c47093e",
+  "nombre" : "Ciudad Real Madrid Valdebebas",
+  "ubicacion" : "Madrid",
+  "precio" : 220.0,
+  "disponible" : true,
+  "imagenUrl" : "https://estaticos.esmadrid.com/cdn/farfuture/8mswN-DVmQMHZECjEAqsMzSNdf7WMV6TxUVxZuepw30/mtime:1646739073/sites/default/files/styles/content_type_full/public/ciudad_deportiva_real_madrid.png?itok=9Af6JSK5"
+}, {
+  "id" : "a9b8c7d6-e5f4-43a2-9b1c-1234567890ab",
+  "nombre" : "Spotify Camp Nou",
+  "ubicacion" : "Barcelona",
+  "precio" : 420.0,
+  "disponible" : true,
+  "imagenUrl" : "https://www.fcbarcelona.com/photo-resources/2025/10/31/f405b197-5935-4768-8d44-2098f4b6effb/_GP10508.jpg?width=1200&height=750"
+}, {
+  "id" : "b1c2d3e4-f5a6-47b8-9c0d-abcdef123456",
+  "nombre" : "Ciutat Esportiva Joan Gamper",
+  "ubicacion" : "Sant Joan Despí",
+  "precio" : 200.0,
+  "disponible" : true,
+  "imagenUrl" : "https://www.fcbarcelona.com/photo-resources/2020/03/11/382d5d16-fe19-433d-8ef7-213d28ae4cf1/mini_VO190515A07565_-_EstadiJohanCruyff140520192_pic_estadi_johan_cruyff_076.jpg?width=1200&height=750"
+}, {
+  "id" : "c1d2e3f4-1111-4222-8333-aaaabbbbcccc",
+  "nombre" : "Stade Francis-Le Blé",
+  "ubicacion" : "Brest",
+  "precio" : 150.0,
+  "disponible" : true,
+  "imagenUrl" : "https://academia.r.worldssl.net/addons/default/modules/stats/img/venues/600/1100.webp"
+}, {
+  "id" : "d1e2f3a4-2222-4333-8444-dddd11112222",
+  "nombre" : "Centre d'entraînement de Kerlaurent",
+  "ubicacion" : "Brest",
+  "precio" : 130.0,
+  "disponible" : true,
+  "imagenUrl" : "https://murebois.fr/wp-content/uploads/2020/11/vue-ensemble-centre-entrainement-SB29.jpg"
+}, {
+  "id" : "e1f2a3b4-3333-4444-8555-3333cccc4444",
+  "nombre" : "Anfield",
+  "ubicacion" : "Liverpool",
+  "precio" : 380.0,
+  "disponible" : true,
+  "imagenUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Anfield_stadium_in_May_2024.jpg/1200px-Anfield_stadium_in_May_2024.jpg"
+}, {
+  "id" : "f1a2b3c4-4444-4555-8666-5555dddd6666",
+  "nombre" : "AXA Training Centre",
+  "ubicacion" : "Kirkby",
+  "precio" : 170.0,
+  "disponible" : true,
+  "imagenUrl" : "https://www.sporteimpianti.it/wp-content/uploads/2020/12/form-copertina-liverpoolaxa-1.jpg"
+}, {
+  "id" : "01234567-5555-4666-8777-7777eeee8888",
+  "nombre" : "Etihad Stadium",
+  "ubicacion" : "Manchester",
+  "precio" : 410.0,
+  "disponible" : true,
+  "imagenUrl" : "https://media.timeout.com/images/101744979/image.jpg"
+}, {
+  "id" : "12345678-6666-4777-8888-9999ffff0000",
+  "nombre" : "City Football Academy",
+  "ubicacion" : "Manchester",
+  "precio" : 210.0,
+  "disponible" : true,
+  "imagenUrl" : "https://vinoly.com/wp-content/uploads/2016/07/CFA_1-1778x1000.jpg"
+}, {
+  "id" : "23456789-7777-4888-8999-111122223333",
+  "nombre" : "Allianz Arena",
+  "ubicacion" : "Munich",
+  "precio" : 440.0,
+  "disponible" : true,
+  "imagenUrl" : "https://img.fcbayern.com/image/upload/f_auto/q_auto/t_cms-16x9-seo/v1601458426/cms/public/images/allianz-arena/stadion-innenraum/aa_haupttribuene.jpg"
+}, {
+  "id" : "34567890-8888-4999-9000-444455556666",
+  "nombre" : "Säbener Straße",
+  "ubicacion" : "Munich",
+  "precio" : 190.0,
+  "disponible" : true,
+  "imagenUrl" : "https://img.fcbayern.com/image/upload/f_auto/q_auto/t_cms-1x191-seo/v1712564435/cms/public/images/fcbayern-com/homepage/club/sabener-strasse/240408-saebener-strasse-fcb.jpg"
+} ]

@@ -1,0 +1,71 @@
+[ {
+  "id" : "a3f1c2d4-1111-4b2a-9f2b-000000000001",
+  "fecha" : [ 2025, 11, 14, 0, 0 ],
+  "id_creador" : "6f1a9e6b-2d5c-4a8b-9f2b-1b2c3d4e5f60",
+  "id_cancha" : "ecb1445d-d5ce-48f1-865c-fcb79d823946",
+  "id_equipo_1" : "11111111-1111-4111-8111-111111111111",
+  "id_equipo_2" : "408d7d89-7d1b-4a5f-81a5-a0b39a7a043d"
+}, {
+  "id" : "b4e2d3c5-2222-4c3b-8e3c-000000000002",
+  "fecha" : [ 2025, 11, 15, 0, 0 ],
+  "id_creador" : "b4d2c3a1-9f8e-4d2b-a6f7-0c1d2e3f4a55",
+  "id_cancha" : "a9b8c7d6-e5f4-43a2-9b1c-1234567890ab",
+  "id_equipo_1" : "33333333-3333-4333-8333-333333333333",
+  "id_equipo_2" : null
+}, {
+  "id" : "c5d3e4f6-3333-4d4c-7d4d-000000000003",
+  "fecha" : [ 2025, 11, 16, 0, 0 ],
+  "id_creador" : "d3f4e5a6-7b8c-4d9e-8f0a-1b2c3d4e5f77",
+  "id_cancha" : "5dc35848-024c-4fa5-9f93-02129c130cc8",
+  "id_equipo_1" : "22222222-2222-4222-8222-222222222222",
+  "id_equipo_2" : null
+}, {
+  "id" : "d6e4f5a7-4444-4e5d-6c5e-000000000004",
+  "fecha" : [ 2025, 11, 17, 0, 0 ],
+  "id_creador" : "e5f6a7b8-9c0d-4e1f-8a2b-3c4d5e6f7a88",
+  "id_cancha" : "b1c2d3e4-f5a6-47b8-9c0d-abcdef123456",
+  "id_equipo_1" : "33333333-3333-4333-8333-333333333333",
+  "id_equipo_2" : null
+}, {
+  "id" : "e7f5a6b8-5555-4f6e-5b6f-000000000005",
+  "fecha" : [ 2025, 11, 18, 0, 0 ],
+  "id_creador" : "6f1a9e6b-2d5c-4a8b-9f2b-1b2c3d4e5f60",
+  "id_cancha" : "c1d2e3f4-1111-4222-8333-aaaabbbbcccc",
+  "id_equipo_1" : "44444444-4444-4444-8444-444444444444",
+  "id_equipo_2" : "408d7d89-7d1b-4a5f-81a5-a0b39a7a043d"
+}, {
+  "id" : "f8a6b7c9-6666-4077-4a70-000000000006",
+  "fecha" : [ 2025, 11, 19, 0, 0 ],
+  "id_creador" : "b4d2c3a1-9f8e-4d2b-a6f7-0c1d2e3f4a55",
+  "id_cancha" : "e1f2a3b4-3333-4444-8555-3333cccc4444",
+  "id_equipo_1" : "55555555-5555-4555-8555-555555555555",
+  "id_equipo_2" : null
+}, {
+  "id" : "09b7c8d0-7777-4188-3b81-000000000007",
+  "fecha" : [ 2025, 11, 20, 0, 0 ],
+  "id_creador" : "d3f4e5a6-7b8c-4d9e-8f0a-1b2c3d4e5f77",
+  "id_cancha" : "01234567-5555-4666-8777-7777eeee8888",
+  "id_equipo_1" : "66666666-6666-4666-8666-666666666666",
+  "id_equipo_2" : null
+}, {
+  "id" : "1ac8d9e1-8888-4299-2c92-000000000008",
+  "fecha" : [ 2025, 11, 21, 0, 0 ],
+  "id_creador" : "e5f6a7b8-9c0d-4e1f-8a2b-3c4d5e6f7a88",
+  "id_cancha" : "ecb1445d-d5ce-48f1-865c-fcb79d823946",
+  "id_equipo_1" : "11111111-1111-4111-8111-111111111111",
+  "id_equipo_2" : null
+}, {
+  "id" : "2bd9eaf2-9999-43aa-1da3-000000000009",
+  "fecha" : [ 2025, 12, 1, 0, 0 ],
+  "id_creador" : "6f1a9e6b-2d5c-4a8b-9f2b-1b2c3d4e5f60",
+  "id_cancha" : "23456789-7777-4888-8999-111122223333",
+  "id_equipo_1" : "77777777-7777-4777-8777-777777777777",
+  "id_equipo_2" : null
+}, {
+  "id" : "3cea0bf3-aaaa-44bb-0eb4-00000000000a",
+  "fecha" : [ 2025, 12, 5, 0, 0 ],
+  "id_creador" : "d3f4e5a6-7b8c-4d9e-8f0a-1b2c3d4e5f77",
+  "id_cancha" : "30592f5e-a7ca-4b6e-9da6-d6d16c47093e",
+  "id_equipo_1" : "22222222-2222-4222-8222-222222222222",
+  "id_equipo_2" : null
+} ]
