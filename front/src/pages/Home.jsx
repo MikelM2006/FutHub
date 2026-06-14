@@ -1,24 +1,24 @@
-import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { DashboardLayout } from '../components/DashboardLayout';
-import { Button } from '../components/ui/button';
-import { PartidoCard } from '../components/PartidoCard';
-import { EquipoCard } from '../components/EquipoCard';
-import { VerMiembrosModal, UnirsePartidoModal } from '../components/modals'; // Importar el modal
+import { Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { DashboardLayout } from "../components/DashboardLayout";
+import { Button } from "../components/ui/button";
+import { PartidoCard } from "../components/PartidoCard";
+import { EquipoCard } from "../components/EquipoCard";
+import { VerMiembrosModal, UnirsePartidoModal } from "../components/modals"; // Importar el modal
 
-
-const PARTIDOS_API_URL = 'http://localhost:8080/api/partidos';
-const EQUIPOS_API_URL = 'http://localhost:8080/api/v1/equipos/mis-equipos';
-const CANCHAS_API_URL = 'http://localhost:8080/api/canchas/disponibles';
-const BASE_URL = 'http://localhost:8080/api/v1';
-
+const PARTIDOS_API_URL = import.meta.env.VITE_API_URL + "/api/partidos";
+const EQUIPOS_API_URL =
+  import.meta.env.VITE_API_URL + "/api/v1/equipos/mis-equipos";
+const CANCHAS_API_URL =
+  import.meta.env.VITE_API_URL + "/api/canchas/disponibles";
+const BASE_URL = import.meta.env.VITE_API_URL + "/api/v1";
 
 async function handleResponse(response) {
-  const contentType = response.headers.get('Content-Type') || '';
-  const bodyText = await response.text().catch(() => '');
+  const contentType = response.headers.get("Content-Type") || "";
+  const bodyText = await response.text().catch(() => "");
   let parsedBody = bodyText;
 
-  if(contentType.includes('application/json') && bodyText) {
+  if (contentType.includes("application/json") && bodyText) {
     try {
       parsedBody = JSON.parse(bodyText);
     } catch (error) {
@@ -26,78 +26,92 @@ async function handleResponse(response) {
     }
   }
 
-  if(!response.ok) {
-    const message = (parsedBody && typeof parsedBody === 'object' && parsedBody.message)
-     ? parsedBody.message
-     : bodyText || 'Error en la solicitud a la API: ' + response.status;
+  if (!response.ok) {
+    const message =
+      parsedBody && typeof parsedBody === "object" && parsedBody.message
+        ? parsedBody.message
+        : bodyText || "Error en la solicitud a la API: " + response.status;
     const error = new Error(message);
     error.status = response.status;
     error.body = parsedBody;
     throw error;
   }
 
-  return contentType.includes('application/json') ? parsedBody : (bodyText || null);
+  return contentType.includes("application/json")
+    ? parsedBody
+    : bodyText || null;
 }
-
 
 const getUserId = (user) => {
   if (user && user.id) return user.id;
-  const stored = localStorage.getItem('userId');
-  return stored || '';
+  const stored = localStorage.getItem("userId");
+  return stored || "";
 };
 
 const getHeaders = (user, isJson = true) => {
   const headers = {};
-  if (isJson) headers['Content-Type'] = 'application/json';
+  if (isJson) headers["Content-Type"] = "application/json";
   const uid = getUserId(user);
-  if (uid) headers['X-USER-ID'] = uid;
-  headers['Accept'] = 'application/json';
+  if (uid) headers["X-USER-ID"] = uid;
+  headers["Accept"] = "application/json";
   return headers;
 };
 
-
-export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreatePartido }) {
-  
-  // Estados para Partidos 
+export function Home({
+  userName = "Usuario",
+  user,
+  onNavigate,
+  onLogout,
+  onCreatePartido,
+}) {
+  // Estados para Partidos
   const [proximosPartidos, setProximosPartidos] = useState([]);
   const [loadingPartidos, setLoadingPartidos] = useState(true);
   const [errorPartidos, setErrorPartidos] = useState(null);
   const [canchas, setCanchas] = useState([]);
 
-  // Estados para Equipos 
+  // Estados para Equipos
   const [misEquipos, setMisEquipos] = useState([]);
   const [loadingEquipos, setLoadingEquipos] = useState(true);
   const [errorEquipos, setErrorEquipos] = useState(null);
   const [todosLosEquipos, setTodosLosEquipos] = useState([]);
 
-  // Estados para el Modal 
+  // Estados para el Modal
   const [isMiembrosModalOpen, setIsMiembrosModalOpen] = useState(false);
-  const [selectedEquipo, setSelectedEquipo] = useState({ id: null, nombre: '', miembros: [] });
+  const [selectedEquipo, setSelectedEquipo] = useState({
+    id: null,
+    nombre: "",
+    miembros: [],
+  });
 
   // Estados para el modal de unirse a partidos
-  const [isUnirsePartidoModalOpen, setIsUnirsePartidoModalOpen] = useState(false);
+  const [isUnirsePartidoModalOpen, setIsUnirsePartidoModalOpen] =
+    useState(false);
 
-  
   // Logica para Cargar Canchas (solo para mostrarlas en las tarjetas de los partidos)
   useEffect(() => {
-  const cargarCanchas = async () => {
-    try {
-      const response = await fetch(CANCHAS_API_URL).then(handleResponse);
-      setCanchas(Array.isArray(response) ? response : []);
-    } catch (error) {
-      console.error('Error al cargar canchas:', error);
-      setCanchas([]); // En caso de error, dejar vacío
-    }
-  };
+    const cargarCanchas = async () => {
+      try {
+        const response = await fetch(CANCHAS_API_URL).then(handleResponse);
+        setCanchas(Array.isArray(response) ? response : []);
+      } catch (error) {
+        console.error("Error al cargar canchas:", error);
+        setCanchas([]); // En caso de error, dejar vacío
+      }
+    };
 
-  cargarCanchas();
-}, [misEquipos, todosLosEquipos, canchas, loadingEquipos]);
+    cargarCanchas();
+  }, [misEquipos, todosLosEquipos, canchas, loadingEquipos]);
 
-  // Lógica para Cargar Partidos 
+  // Lógica para Cargar Partidos
   useEffect(() => {
     const fetchPartidos = async () => {
       try {
-        if (loadingEquipos || misEquipos.length === 0 || todosLosEquipos.length === 0) {
+        if (
+          loadingEquipos ||
+          misEquipos.length === 0 ||
+          todosLosEquipos.length === 0
+        ) {
           setProximosPartidos([]); // No procesar partidos si los equipos no están cargados
           return;
         }
@@ -112,7 +126,7 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
         }
 
         const partidosTransformados = response.map((partidoDTO) => {
-          const dateObject = new Date(partidoDTO.fecha.replace('T', ' '));
+          const dateObject = new Date(partidoDTO.fecha.replace("T", " "));
 
           const equipoAId = partidoDTO.id_equipo_1 || null;
           const equipoBId = partidoDTO.id_equipo_2 || null;
@@ -120,16 +134,20 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
           const equipoAobj = todosLosEquipos.find((e) => e.id === equipoAId);
           const equipoBobj = todosLosEquipos.find((e) => e.id === equipoBId);
 
-          const equipoAName = equipoAobj ? equipoAobj.nombre : `Equipo ${equipoAId}`;
-          const equipoBName = equipoBobj ? equipoBobj.nombre : `Equipo ${equipoBId}`;
+          const equipoAName = equipoAobj
+            ? equipoAobj.nombre
+            : `Equipo ${equipoAId}`;
+          const equipoBName = equipoBobj
+            ? equipoBobj.nombre
+            : `Equipo ${equipoBId}`;
 
           return {
             id: partidoDTO.id,
             cancha: partidoDTO.id_cancha,
-            fecha: dateObject.toLocaleDateString('es-ES', {
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
+            fecha: dateObject.toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
             }),
             equipoA: equipoAName,
             equipoB: equipoBName,
@@ -141,7 +159,9 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
         // Filtrar partidos para mostrar solo los relacionados con los equipos del usuario
         const myTeamIds = new Set(misEquipos.map((e) => e.id));
         const partidosFiltrados = partidosTransformados.filter(
-          (p) => (p.equipoAId && myTeamIds.has(p.equipoAId)) || (p.equipoBId && myTeamIds.has(p.equipoBId))
+          (p) =>
+            (p.equipoAId && myTeamIds.has(p.equipoAId)) ||
+            (p.equipoBId && myTeamIds.has(p.equipoBId)),
         );
 
         setProximosPartidos(partidosFiltrados);
@@ -157,7 +177,12 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
 
   // Logica para reemplazar ids por nombres en equipos y canchas y filtrar partidos para que sean solo los tuyos
   useEffect(() => {
-    if (loadingEquipos || misEquipos.length === 0 || todosLosEquipos.length === 0 || canchas.length === 0) {
+    if (
+      loadingEquipos ||
+      misEquipos.length === 0 ||
+      todosLosEquipos.length === 0 ||
+      canchas.length === 0
+    ) {
       setProximosPartidos([]);
       return;
     }
@@ -166,41 +191,55 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
 
     const partidosFiltrados = proximosPartidos
       .map((p) => {
-        const nombreEquipo1 = (todosLosEquipos.find((e) => e.id === p.equipoAId) || {}).nombre || `Equipo ${p.equipoAId}`;
-        const nombreEquipo2 = (todosLosEquipos.find((e) => e.id === p.equipoBId) || {}).nombre || `Equipo ${p.equipoBId}`;
-        const nombreCancha = (canchas.find((c) => c.id === p.cancha) || {}).nombre || p.cancha;
+        const nombreEquipo1 =
+          (todosLosEquipos.find((e) => e.id === p.equipoAId) || {}).nombre ||
+          `Equipo ${p.equipoAId}`;
+        const nombreEquipo2 =
+          (todosLosEquipos.find((e) => e.id === p.equipoBId) || {}).nombre ||
+          `Equipo ${p.equipoBId}`;
+        const nombreCancha =
+          (canchas.find((c) => c.id === p.cancha) || {}).nombre || p.cancha;
 
-        return { ...p, equipoA: nombreEquipo1, equipoB: nombreEquipo2, cancha: nombreCancha };
+        return {
+          ...p,
+          equipoA: nombreEquipo1,
+          equipoB: nombreEquipo2,
+          cancha: nombreCancha,
+        };
       })
-      .filter((p) => (p.equipoAId && myTeamIds.has(p.equipoAId)) || (p.equipoBId && myTeamIds.has(p.equipoBId)));
+      .filter(
+        (p) =>
+          (p.equipoAId && myTeamIds.has(p.equipoAId)) ||
+          (p.equipoBId && myTeamIds.has(p.equipoBId)),
+      );
 
     setProximosPartidos(partidosFiltrados);
   }, [misEquipos, todosLosEquipos, canchas, loadingEquipos]);
 
-  // Lógica para Cargar Equipos 
+  // Lógica para Cargar Equipos
   useEffect(() => {
     const cargarMisEquipos = async () => {
-      if (!user) { // No intentar cargar si no hay usuario
+      if (!user) {
+        // No intentar cargar si no hay usuario
         setLoadingEquipos(false);
         return;
       }
-      
+
       setLoadingEquipos(true);
       setErrorEquipos(null);
       try {
         const res = await fetch(EQUIPOS_API_URL, {
-          method: 'GET',
-          headers: getHeaders(user, false), 
-        }).then(handleResponse); 
-        
+          method: "GET",
+          headers: getHeaders(user, false),
+        }).then(handleResponse);
+
         setMisEquipos(Array.isArray(res) ? res : []);
-      
       } catch (err) {
-        console.error('Error al cargar mis equipos:', err);
+        console.error("Error al cargar mis equipos:", err);
         if (err && err.status === 401) {
-          setErrorEquipos('No autorizado. Asegúrate de haber iniciado sesión.');
+          setErrorEquipos("No autorizado. Asegúrate de haber iniciado sesión.");
         } else {
-          setErrorEquipos(err.message || 'Error al cargar mis equipos.');
+          setErrorEquipos(err.message || "Error al cargar mis equipos.");
         }
       } finally {
         setLoadingEquipos(false);
@@ -215,12 +254,12 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
     const cargarTodosLosEquipos = async () => {
       try {
         const response = await fetch(`${BASE_URL}/equipos/buscar`, {
-          method: 'GET',
+          method: "GET",
           headers: getHeaders(user, false),
         }).then(handleResponse);
 
         const equiposActuales = await fetch(`${BASE_URL}/equipos/mis-equipos`, {
-          method: 'GET', 
+          method: "GET",
           headers: getHeaders(user, false),
         }).then(handleResponse);
 
@@ -229,13 +268,14 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
         const equiposCombinados = [
           ...equiposBackend,
           ...equiposActuales.filter(
-            (miEquipo) => !equiposBackend.some((equipo) => equipo.id === miEquipo.id)
+            (miEquipo) =>
+              !equiposBackend.some((equipo) => equipo.id === miEquipo.id),
           ),
         ];
 
         setTodosLosEquipos(equiposCombinados);
       } catch (error) {
-        console.error('Error al cargar todos los equipos:', error);
+        console.error("Error al cargar todos los equipos:", error);
         setTodosLosEquipos([]); // En caso de error, dejar vacío
       }
     };
@@ -243,46 +283,60 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
     if (user) {
       cargarTodosLosEquipos();
     }
-    
   }, [user]);
 
-  // Handler para ver miembros 
+  // Handler para ver miembros
   const handleVerMiembros = (equipo) => {
-    // Lógica real 
+    // Lógica real
     const miembrosList = Array.isArray(equipo.miembros) ? equipo.miembros : [];
-    setSelectedEquipo({ id: equipo.id, nombre: equipo.nombre, miembros: miembrosList });
+    setSelectedEquipo({
+      id: equipo.id,
+      nombre: equipo.nombre,
+      miembros: miembrosList,
+    });
     setIsMiembrosModalOpen(true);
   };
 
   // Función para cancelar un partido
   const handleCancelarPartido = async (partidoId) => {
-    if (!window.confirm('¿Estás seguro de que deseas cancelar este partido?')) return;
+    if (!window.confirm("¿Estás seguro de que deseas cancelar este partido?"))
+      return;
 
     try {
       await fetch(`${PARTIDOS_API_URL}/${partidoId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: getHeaders(user, false),
       });
 
       // Actualizar la lista de partidos eliminando el partido cancelado
-      setProximosPartidos((prev) => prev.filter((partido) => partido.id !== partidoId));
-      alert('El partido ha sido cancelado exitosamente.');
+      setProximosPartidos((prev) =>
+        prev.filter((partido) => partido.id !== partidoId),
+      );
+      alert("El partido ha sido cancelado exitosamente.");
     } catch (error) {
-      console.error('Error al cancelar el partido:', error);
-      alert('No se pudo cancelar el partido. Intenta nuevamente.');
+      console.error("Error al cancelar el partido:", error);
+      alert("No se pudo cancelar el partido. Intenta nuevamente.");
     }
   };
 
-  // Renderizado de Partidos 
+  // Renderizado de Partidos
   const renderPartidos = () => {
     if (loadingPartidos) {
       return <p className="text-[#6b7280]">Cargando partidos...</p>;
     }
     if (errorPartidos) {
-      return <p className="text-red-600">Error al cargar partidos: {errorPartidos}</p>;
+      return (
+        <p className="text-red-600">
+          Error al cargar partidos: {errorPartidos}
+        </p>
+      );
     }
     if (proximosPartidos.length === 0) {
-      return <p className="text-[#6b7280]">No hay partidos programados. ¡Crea uno!</p>;
+      return (
+        <p className="text-[#6b7280]">
+          No hay partidos programados. ¡Crea uno!
+        </p>
+      );
     }
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -290,7 +344,9 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
           <PartidoCard
             key={partido.id}
             {...partido}
-            isOwner={misEquipos.some((e) => e.id === partido.equipoAId && e.isOwner)} // Verificar si el usuario es el creador
+            isOwner={misEquipos.some(
+              (e) => e.id === partido.equipoAId && e.isOwner,
+            )} // Verificar si el usuario es el creador
             onCancel={() => handleCancelarPartido(partido.id)} // Pasar la función de cancelar
           />
         ))}
@@ -298,8 +354,7 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
     );
   };
 
-
-  // Renderizado de Equipos 
+  // Renderizado de Equipos
   const renderMisEquipos = () => {
     if (loadingEquipos) {
       return <div className="text-center p-6">Cargando equipos...</div>;
@@ -308,7 +363,9 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
       return <div className="text-center p-6 text-red-500">{errorEquipos}</div>;
     }
     if (misEquipos.length === 0) {
-      return <p className="text-gray-500">Aún no eres miembro de ningún equipo.</p>;
+      return (
+        <p className="text-gray-500">Aún no eres miembro de ningún equipo.</p>
+      );
     }
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -316,7 +373,9 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
           <EquipoCard
             key={equipo.id}
             nombre={equipo.nombre}
-            miembros={Array.isArray(equipo.miembros) ? equipo.miembros.length : 0}
+            miembros={
+              Array.isArray(equipo.miembros) ? equipo.miembros.length : 0
+            }
             isOwner={!!equipo.isOwner}
             onClick={() => handleVerMiembros(equipo)}
           />
@@ -325,15 +384,23 @@ export function Home({ userName = 'Usuario', user, onNavigate, onLogout, onCreat
     );
   };
 
-
   return (
-    <DashboardLayout userName={userName} user={user} onNavigate={onNavigate} onLogout={onLogout} currentPage="partidos">
+    <DashboardLayout
+      userName={userName}
+      user={user}
+      onNavigate={onNavigate}
+      onLogout={onLogout}
+      currentPage="partidos"
+    >
       <div className="space-y-8">
         {/* Banner CTA */}
         <div className="bg-gradient-to-r from-[#16a34a] to-[#15803d] rounded-xl p-8 text-white shadow-lg overflow-hidden relative">
           <div className="relative z-10">
             <h1 className="text-white">Organiza tu Próximo Partido</h1>
-            <p className="mb-6 max-w-xl">Reserva tu cancha favorita y organiza el próximo partido con tu equipo</p>
+            <p className="mb-6 max-w-xl">
+              Reserva tu cancha favorita y organiza el próximo partido con tu
+              equipo
+            </p>
             <Button
               onClick={onCreatePartido}
               className="bg-white text-[#16a34a] hover:bg-gray-100"

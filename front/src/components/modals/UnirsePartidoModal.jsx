@@ -1,26 +1,44 @@
 // language: javascript
-import React, { useEffect, useState } from 'react';
-import { Button } from '../../components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
-import { Label } from '../../components/ui/label';
+import React, { useEffect, useState } from "react";
+import { Button } from "../../components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../../components/ui/dialog";
+import { Label } from "../../components/ui/label";
 
-const PARTIDOS_API_URL = 'http://localhost:8080/api/partidos';
+const PARTIDOS_API_URL = import.meta.env.VITE_API_URL + "/api/partidos";
 
-export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, misEquipos, canchas, onJoined }) {
+export function UnirsePartidoModal({
+  open,
+  onOpenChange,
+  user,
+  todosLosEquipos,
+  misEquipos,
+  canchas,
+  onJoined,
+}) {
   const [partidos, setPartidos] = useState([]);
   const [selectedPartido, setSelectedPartido] = useState(null);
   const [selectedEquipo, setSelectedEquipo] = useState(null);
   const [loading, setLoading] = useState(false);
-  const ownerTeams = Array.isArray(misEquipos) ? misEquipos.filter(t => t.isOwner) : [];
+  const ownerTeams = Array.isArray(misEquipos)
+    ? misEquipos.filter((t) => t.isOwner)
+    : [];
 
   useEffect(() => {
     if (!open) return;
     const cargar = async () => {
       try {
         setLoading(true);
-        const res = await fetch(PARTIDOS_API_URL).then(r => r.json());
+        const res = await fetch(PARTIDOS_API_URL).then((r) => r.json());
         // Filtrar partidos que NO tienen id_equipo_2
-        const disponibles = Array.isArray(res) ? res.filter(p => !p.id_equipo_2) : [];
+        const disponibles = Array.isArray(res)
+          ? res.filter((p) => !p.id_equipo_2)
+          : [];
         setPartidos(disponibles);
       } catch (err) {
         setPartidos([]);
@@ -35,34 +53,34 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
     if (!selectedPartido || !selectedEquipo) return;
     try {
       const res = await fetch(`${PARTIDOS_API_URL}/${selectedPartido}/unirse`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          ...(user && user.id ? { 'X-USER-ID': user.id } : {})
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...(user && user.id ? { "X-USER-ID": user.id } : {}),
         },
-        body: JSON.stringify({ id_equipo_2: selectedEquipo })
+        body: JSON.stringify({ id_equipo_2: selectedEquipo }),
       });
       if (!res.ok) {
         const txt = await res.text();
-        throw new Error(txt || 'Error al unirse al partido');
+        throw new Error(txt || "Error al unirse al partido");
       }
       const data = await res.json();
       onJoined && onJoined(data);
       onOpenChange(false);
     } catch (err) {
-      alert('No se pudo unir al partido: ' + (err.message || err));
+      alert("No se pudo unir al partido: " + (err.message || err));
     }
   };
 
   const getEquipoNombre = (id) => {
-    const equipo = todosLosEquipos.find(e => e.id === id);
+    const equipo = todosLosEquipos.find((e) => e.id === id);
     return equipo ? equipo.nombre : `Equipo ${id}`;
   };
 
   const getCanchaNombre = (id) => {
     if (!canchas || canchas.length === 0) return `Cancha ${id}`;
-    const cancha = canchas.find(c => c.id === id);
+    const cancha = canchas.find((c) => c.id === id);
     return cancha ? cancha.nombre : `Cancha ${id}`;
   };
 
@@ -70,9 +88,14 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-white" aria-describedby={undefined}>
+      <DialogContent
+        className="sm:max-w-md bg-white"
+        aria-describedby={undefined}
+      >
         <DialogHeader>
-          <DialogTitle className="text-[#111827]">Unirse a un Partido</DialogTitle>
+          <DialogTitle className="text-[#111827]">
+            Unirse a un Partido
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-2">
@@ -82,7 +105,7 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
             <select
               id="partido"
               className="w-full border-[#d1d5db] rounded-md focus:ring-[#16a34a] focus:border-[#16a34a]"
-              value={selectedPartido || ''}
+              value={selectedPartido || ""}
               onChange={(e) => setSelectedPartido(e.target.value)}
               disabled={loading}
             >
@@ -93,9 +116,12 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
                 partidos.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.fecha
-                      ? new Date(p.fecha.replace('T', ' ')).toLocaleDateString('es-ES')
-                      : 'Sin fecha'}{' '}
-                    — Equipo: {getEquipoNombre(p.id_equipo_1)} — Cancha: {getCanchaNombre(p.id_cancha)}
+                      ? new Date(p.fecha.replace("T", " ")).toLocaleDateString(
+                          "es-ES",
+                        )
+                      : "Sin fecha"}{" "}
+                    — Equipo: {getEquipoNombre(p.id_equipo_1)} — Cancha:{" "}
+                    {getCanchaNombre(p.id_cancha)}
                   </option>
                 ))
               )}
@@ -108,7 +134,7 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
             <select
               id="equipo"
               className="w-full border-[#d1d5db] rounded-md focus:ring-[#16a34a] focus:border-[#16a34a]"
-              value={selectedEquipo || ''}
+              value={selectedEquipo || ""}
               onChange={(e) => setSelectedEquipo(e.target.value)}
             >
               <option value="">-- Selecciona equipo --</option>
@@ -134,7 +160,7 @@ export function UnirsePartidoModal({ open, onOpenChange, user, todosLosEquipos, 
             disabled={!selectedPartido || !selectedEquipo || loading}
             className="bg-[#16a34a] hover:bg-[#15803d] text-white"
           >
-            {loading ? 'Uniendo...' : 'Unirse'}
+            {loading ? "Uniendo..." : "Unirse"}
           </Button>
         </DialogFooter>
       </DialogContent>
