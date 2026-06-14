@@ -17,7 +17,7 @@ import com.futhub.models.Invitacion;
 
 @RestController //esta clase maneja particiones web
 @RequestMapping("/api/v1/equipos") //define url base para todas las particiones en este controlador
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://fut-hub-beta.vercel.app"})
 public class EquipoController {
 
     private final EquipoService equipoService;

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://localhost:8080", "https://fut-hub-beta.vercel.app"})
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
