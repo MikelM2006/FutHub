@@ -6,21 +6,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Configuración Web Global.
- * Se usa aquí para configurar CORS (Cross-Origin Resource Sharing).
+ * Configuración de CORS infalible para producción en Vercel y local.
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
-        registry.addMapping("/api/**") // Permite CORS para todos tus endpoints bajo /api/
-                .allowedOrigins(
-                    "http://localhost:5173", 
-                    "https://fut-hub-beta.vercel.app" // <-- REEMPLAZA ESTO CON TU URL REAL DE VERCEL
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos HTTP permitidos
+        registry.addMapping("/**") // Aplica para absolutamente todos los endpoints del backend
+                .allowedOriginPatterns("*") // Permite cualquier URL (incluyendo Vercel dinámico) de forma segura con credentials
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // Agregamos OPTIONS que es vital para el preflight
                 .allowedHeaders("*") // Permite todas las cabeceras
-                .allowCredentials(true);
+                .exposedHeaders("Authorization") // Por si usas tokens JWT en el futuro
+                .allowCredentials(true); // Mantiene activo el uso de cookies/sesiones si lo necesitas
     }
 }
