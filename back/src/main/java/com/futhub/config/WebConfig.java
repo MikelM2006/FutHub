@@ -15,8 +15,10 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 
         registry.addMapping("/api/**") // Permite CORS para todos tus endpoints bajo /api/
-                .allowedOrigins("http://localhost:5173")
-
+                .allowedOrigins(
+                    "http://localhost:5173", 
+                    "https://fut-hub-beta.vercel.app" // <-- REEMPLAZA ESTO CON TU URL REAL DE VERCEL
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Métodos HTTP permitidos
                 .allowedHeaders("*") // Permite todas las cabeceras
                 .allowCredentials(true);
