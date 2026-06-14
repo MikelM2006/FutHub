@@ -23,7 +23,7 @@ export function Login({ onNavigateToRegister, onLogin }) {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/usuarios/login', {
+      const res = await fetch(import.meta.env.VITE_API_URL + '/api/usuarios/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

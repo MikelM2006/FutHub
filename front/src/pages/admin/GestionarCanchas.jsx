@@ -49,7 +49,7 @@ export function GestionarCanchas({ onNavigate, onLogout }) {
     let mounted = true;
     async function fetchCanchas() {
       try {
-        const res = await fetch('/api/canchas/'); // proxied por vite.config
+        const res = await fetch(import.meta.env.VITE_API_URL + '/api/canchas/');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (mounted) setCanchas(Array.isArray(data) ? data : []);
@@ -133,7 +133,7 @@ export function GestionarCanchas({ onNavigate, onLogout }) {
           try {
             setIsSubmitting(true);
             setError(null);
-            const res = await fetch('/api/canchas/', {
+            const res = await fetch(import.meta.env.VITE_API_URL + '/api/canchas/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(body),

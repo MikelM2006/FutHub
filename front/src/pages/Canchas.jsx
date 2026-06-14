@@ -15,7 +15,7 @@ export function Canchas({ userName = 'Usuario', user, onNavigate, onLogout, isAd
     let mounted = true;
     async function fetchCanchas() {
       try {
-        const res = await fetch('/api/canchas/'); // proxied a localhost:8080 por vite.config
+        const res = await fetch(import.meta.env.VITE_API_URL + '/api/canchas/');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (mounted) setCanchas(Array.isArray(data) ? data : []);
