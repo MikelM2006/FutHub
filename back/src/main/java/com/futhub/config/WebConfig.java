@@ -19,10 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
         // Permitimos credenciales
         config.setAllowCredentials(true);
         // Agrega aquí todas las URLs de tu frontend
-        config.setAllowedOrigins(Arrays.asList(
-            "https://fut-m2ovgiw64-mikelmunozlandi-1112s-projects.vercel.app",
+        config.setAllowedOriginPatterns(Arrays.asList(
+            "https://fut-hub-eta.vercel.app",
+            "https://fut-*.vercel.app",
             "http://localhost:5173"
-        ));
+            ));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setExposedHeaders(Arrays.asList("Authorization"));
